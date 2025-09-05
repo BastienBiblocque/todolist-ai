@@ -29,56 +29,114 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-gray-800 text-white p-4 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold hover:text-purple-400 transition-colors">
-          TodoList App
-        </Link>
-        <div className="space-x-6">
-          <Link 
-            href="/" 
-            className={`hover:text-purple-400 transition-colors ${
-              pathname === '/' ? 'text-purple-400' : ''
+    <nav className="bg-white border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <Link 
+              href="/" 
+              className="flex items-center px-2 text-xl font-bold text-indigo-600"
+            >
+              <svg 
+                className="h-8 w-8 mr-2" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" 
+                />
+              </svg>
+              TodoList
+            </Link>
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <Link
+                href="/"
+                className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                  pathname === '/'
+                    ? 'border-indigo-500 text-gray-900'
+                    : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                Accueil
+              </Link>
+              {isAuthenticated && (
+                <Link
+                  href="/todo"
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
+                    pathname === '/todo'
+                      ? 'border-indigo-500 text-gray-900'
+                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                  }`}
+                >
+                  Mes Tâches
+                </Link>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center">
+            {isAuthenticated ? (
+              <button
+                onClick={handleLogout}
+                className="ml-4 px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+              >
+                Déconnexion
+              </button>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/login"
+                  className={`px-4 py-2 text-sm font-medium rounded-md ${
+                    pathname === '/login'
+                      ? 'bg-indigo-100 text-indigo-700'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                  } transition-colors duration-200`}
+                >
+                  Connexion
+                </Link>
+                <Link
+                  href="/register"
+                  className={`px-4 py-2 text-sm font-medium rounded-md ${
+                    pathname === '/register'
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-indigo-500 text-white hover:bg-indigo-600'
+                  } transition-colors duration-200`}
+                >
+                  Inscription
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      
+      {/* Barre de navigation mobile */}
+      <div className="sm:hidden">
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          <Link
+            href="/"
+            className={`block px-3 py-2 rounded-md text-base font-medium ${
+              pathname === '/'
+                ? 'bg-indigo-50 text-indigo-700'
+                : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
             }`}
           >
             Accueil
           </Link>
-          {isAuthenticated ? (
-            <>
-              <Link 
-                href="/todo" 
-                className={`hover:text-purple-400 transition-colors ${
-                  pathname === '/todo' ? 'text-purple-400' : ''
-                }`}
-              >
-                Mes Tâches
-              </Link>
-              <button 
-                onClick={handleLogout}
-                className="text-red-400 hover:text-red-300 transition-colors"
-              >
-                Déconnexion
-              </button>
-            </>
-          ) : (
-            <>
-              <Link 
-                href="/login" 
-                className={`hover:text-purple-400 transition-colors ${
-                  pathname === '/login' ? 'text-purple-400' : ''
-                }`}
-              >
-                Connexion
-              </Link>
-              <Link 
-                href="/register" 
-                className={`hover:text-purple-400 transition-colors ${
-                  pathname === '/register' ? 'text-purple-400' : ''
-                }`}
-              >
-                Inscription
-              </Link>
-            </>
+          {isAuthenticated && (
+            <Link
+              href="/todo"
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                pathname === '/todo'
+                  ? 'bg-indigo-50 text-indigo-700'
+                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+              }`}
+            >
+              Mes Tâches
+            </Link>
           )}
         </div>
       </div>

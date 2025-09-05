@@ -7,7 +7,8 @@ export function middleware(request: NextRequest) {
                     request.nextUrl.pathname.startsWith('/register');
   const isApiRoute = request.nextUrl.pathname.startsWith('/api');
   const isPublicRoute = request.nextUrl.pathname.startsWith('/_next') || 
-                       request.nextUrl.pathname.startsWith('/favicon.ico');
+                       request.nextUrl.pathname.startsWith('/favicon.ico') ||
+                       request.nextUrl.pathname === '/';
   
   // Allow public routes
   if (isPublicRoute) {
@@ -40,7 +41,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Protected routes redirect to /login if not authenticated
-  if (!token && !isAuthPage) {
+  if (!token && !isAuthPage && request.nextUrl.pathname !== '/') {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
