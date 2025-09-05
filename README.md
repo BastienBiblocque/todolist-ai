@@ -1,5 +1,51 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+# TodoList Application
+
+Une application de gestion de tâches construite avec Next.js, intégrant l'authentification et une base de données PostgreSQL.
+
+## Fonctionnalités
+
+- Authentification utilisateur (connexion/inscription)
+- Création, modification et suppression de tâches
+- Interface utilisateur responsive
+- Sécurisation des routes API
+- Tests unitaires complets
+
+## Tests
+
+L'application est testée à l'aide de Jest et React Testing Library. Les tests couvrent :
+
+- Composants React (Navigation, etc.)
+- Routes API (authentification, gestion des tâches)
+- Middleware et sécurité
+
+Pour exécuter les tests :
+
+```bash
+# Exécuter tous les tests
+npm test
+
+# Exécuter les tests en mode watch
+npm run test:watch
+
+# Générer un rapport de couverture
+npm run test:coverage
+```
+
+### Structure des Tests
+
+- `__tests__/Navigation.test.tsx` : Tests du composant de navigation
+- `__tests__/auth.test.ts` : Tests des routes d'authentification
+- `__tests__/tasks.test.ts` : Tests des opérations CRUD sur les tâches
+
+### Technologies de Test
+
+- Jest : Framework de test
+- React Testing Library : Tests des composants React
+- MSW (Mock Service Worker) : Mock des requêtes API
+- jest-environment-jsdom : Environnement DOM pour les tests
+
 ## Getting Started
 
 First, run the development server:
