@@ -22,8 +22,16 @@ async function getUserIdFromToken(request: Request): Promise<number | null> {
   }
 }
 
-export async function GET() {
-  const tasks = await prisma.task.findMany({ orderBy: { createdAt: 'desc' } });
+export async function GET(request: Request) {
+  const userId = await getUserIdFromToken(request);
+  if (!userId) {
+    return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
+  }
+
+  const tasks = await prisma.task.findMany({ 
+    where: { userId },
+    orderBy: { createdAt: 'desc' } 
+  });
   return NextResponse.json(tasks);
 }
 
@@ -55,12 +63,42 @@ export async function PATCH(request: Request) {
   }
 
   const { id, done } = await request.json();
-  const updated = await prisma.task.update({
-    where: { 
-      id,
-      userId // S'assure que la tâche appartient à l'utilisateur
-    },
-    data: { done: !!done },
-  });
-  return NextResponse.json(updated);
+  try {
+    const updated = await prisma.task.update({
+      where: { 
+        id,
+        userId // S'assure que la tâche appartient à l'utilisateur
+      },
+      data: { done: !!done },
+    });
+    return NextResponse.json(updated);
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Tâche non trouvée ou non autorisée' }, 
+      { status: 404 }
+    );
+  }
+}
+
+export async function DELETE(request: Request) {
+  const userId = await getUserIdFromToken(request);
+  if (!userId) {
+    return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
+  }
+
+  const { id } = await request.json();
+  try {
+    await prisma.task.delete({
+      where: { 
+        id,
+        userId // S'assure que la tâche appartient à l'utilisateur
+      }
+    });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Tâche non trouvée ou non autorisée' }, 
+      { status: 404 }
+    );
+  }
 }
